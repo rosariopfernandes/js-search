@@ -25,7 +25,7 @@ type ITfIdfUidMetadata = {
 /**
  * Search index capable of returning results matching a set of tokens and ranked according to TF-IDF.
  */
-export class TfIdfSearchIndex implements ISearchIndex {
+export class FirestoreSearchIndex implements ISearchIndex {
   _uidFieldName : string | Array<string>;
   _tokenToIdfCache : {[token : string] : number};
   _tokenMap : ITfIdfTokenMap;
@@ -67,6 +67,7 @@ export class TfIdfSearchIndex implements ISearchIndex {
     } else {
       uidMap[uid].$numTokenOccurrences++;
     }
+    console.log("Indexed document")
   }
 
   /**
@@ -110,6 +111,8 @@ export class TfIdfSearchIndex implements ISearchIndex {
     }
 
     var calculateTfIdf = this._createCalculateTfIdf();
+
+    console.log("search complete");
 
     // Return documents sorted by TF-IDF
     return documents.sort((documentA, documentB) =>
